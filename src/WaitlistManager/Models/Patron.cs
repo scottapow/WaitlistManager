@@ -16,7 +16,7 @@ namespace WaitlistManager.Models
 
         public string LastName { get; set; }
 
-        public string BarberPreference { get; set; }
+        public Barber BarberPreference { get; set; }
 
         public bool isCheckedOff { get; set; }
 

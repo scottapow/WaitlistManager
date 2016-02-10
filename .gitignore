@@ -207,7 +207,7 @@ FakesAssemblies/
 *.opt
 
 # Bower Components
-bower_components
+bower_components/**
 
 # LightSwitch generated files
 GeneratedArtifacts/
