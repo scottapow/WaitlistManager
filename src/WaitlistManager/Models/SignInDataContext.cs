@@ -19,7 +19,7 @@ namespace WaitlistManager.Models
         {
             base.OnConfiguring(optionsBuilder);
 
-            var connectionString = @"Server=(LocalDb)\MSSQLLocalDb;Database=AspNetBlog";
+            var connectionString = @"Server=(LocalDb)\MSSQLLocalDb;Database=WaitlistManager";
             optionsBuilder.UseSqlServer(connectionString);
         }
 
