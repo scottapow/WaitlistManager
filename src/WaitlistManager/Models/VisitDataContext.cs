@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WaitlistManager.Models
 {
-    public class SignInDataContext : DbContext
+    public class VisitDataContext : DbContext
     {
-        public DbSet<Patron> Patrons { get; set; }
+        public DbSet<Visit> Visits { get; set; }
 
-        public SignInDataContext()
+        public VisitDataContext()
         {
             Database.EnsureCreated();
         }
@@ -27,13 +27,21 @@ namespace WaitlistManager.Models
         {
             base.OnModelCreating(mb);
 
-            mb.Entity<Patron>()
+            mb.Entity<Visit>()
                 .Property(x => x.Id)
                 .UseSqlServerIdentityColumn();
 
-            mb.Entity<Patron>()
+            mb.Entity<Visit>()
                 .Property(x => x.isCheckedOff)
                 .HasDefaultValue(false);
+
+            mb.Entity<Visit>()
+                .Property(x => x.FirstName)
+                .IsRequired();
+
+            mb.Entity<Visit>()
+                .Property(x => x.BarberPreference)
+                .HasDefaultValue("none");
         }
     }
 }

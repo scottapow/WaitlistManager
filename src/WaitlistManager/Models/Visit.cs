@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace WaitlistManager.Models
 {
-    public class Patron
+    public class Visit
     {
         public long Id { get; set; }
 
-        [Required]
-        [DataType(DataType.Text)]
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

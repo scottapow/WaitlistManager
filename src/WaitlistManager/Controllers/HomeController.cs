@@ -15,5 +15,6 @@ namespace WaitlistManager.Controllers
         {
             return View();
         }
+
     }
 }

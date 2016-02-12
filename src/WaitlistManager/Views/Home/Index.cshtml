@@ -1,34 +1,6 @@
-﻿@*@model IEnumerable<WaitlistManager.Models.Patron>*@
-@{
-    Layout = "_Layout";
-    //var waitTime = (@Model.Count(x => x.IsCheckedOff == false)* 5).ToString();
-}
+﻿<div class="container-fluid">
 
-
-
-<div class="container-fluid">
-    <table class="table table-striped table-condensed">
-        <tr>
-            <th>Position</th>
-            <th>Name</th>
-            <th>Barber Preference</th>
-            <th>Wait</th>
-            <th>Checkin Time</th>
-        </tr>
-        @*@foreach (var patron in Model)
-        {
-            @Html.Partial("_Patron", patron)
-        }*@
-        <tr>
-            <a>
-                <td> Check in. Current wait time: minutes </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </a>
-        </tr>
-    </table>
+    @RenderBody()
 
     @*Modal*@
     <div class="modal fade" id="patronModal" tabindex="-1" role="dialog">
