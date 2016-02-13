@@ -8,16 +8,22 @@ namespace WaitlistManager.Models
 {
     public class Visit
     {
-        public long Id { get; set; }
+        public int VisitId { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public Barber BarberPreference { get; set; }
+        public bool isMissing { get; set; }
 
         public bool isCheckedOff { get; set; }
 
         public DateTime SignInTime { get; set; }
+
+        public DateTime CheckOffTime { get; set; }
+
+        public int BarberId { get; set; }
+
+        public virtual Barber Barber { get; set; }
     }
 }

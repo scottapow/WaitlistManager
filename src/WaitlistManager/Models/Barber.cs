@@ -7,10 +7,9 @@ namespace WaitlistManager.Models
 {
     public class Barber
     {
+        public int BarberId { get; set; }
 
         public string FullName { get; set; }
-
-        public List<string> Styles { get; set; }
 
         public bool CutsF { get; set; }
 
@@ -19,5 +18,13 @@ namespace WaitlistManager.Models
         public string Bio { get; set; }
 
         public double AvgCutTime { get; set; }
+
+        public string ProfilePicPath { get; set;}
+
+        public int Password { get; set; }
+
+        public bool IsAdmin { get; set; }
+
+        public virtual ICollection<Visit> Visits { get; set; }
     }
 }

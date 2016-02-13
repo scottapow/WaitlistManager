@@ -28,7 +28,7 @@ namespace WaitlistManager.Models
             base.OnModelCreating(mb);
 
             mb.Entity<Visit>()
-                .Property(x => x.Id)
+                .Property(x => x.VisitId)
                 .UseSqlServerIdentityColumn();
 
             mb.Entity<Visit>()
@@ -40,8 +40,8 @@ namespace WaitlistManager.Models
                 .IsRequired();
 
             mb.Entity<Visit>()
-                .Property(x => x.BarberPreference)
-                .HasDefaultValue("none");
+                .Property(x => x.BarberId)
+                .HasDefaultValue(null);
         }
     }
 }
