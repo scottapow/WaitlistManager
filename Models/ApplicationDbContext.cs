@@ -20,6 +20,8 @@ namespace WaitlistManager.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            new ApplicationDbConfigurations(builder.Entity<Visit>(), builder.Entity<Barber>());
         }
     }
 }
