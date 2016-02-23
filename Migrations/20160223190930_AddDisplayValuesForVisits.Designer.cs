@@ -8,9 +8,10 @@ using WaitlistManager.Models;
 namespace WaitlistManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160223190930_AddDisplayValuesForVisits")]
+    partial class AddDisplayValuesForVisits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -176,7 +177,7 @@ namespace WaitlistManager.Migrations
                     b.Property<int>("VisitId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BarberId");
+                    b.Property<int>("BarberId");
 
                     b.Property<DateTime>("CheckOffTime");
 

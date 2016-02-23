@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
@@ -11,13 +8,13 @@ using WaitlistManager.Models;
 namespace WaitlistManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("00000000000000_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20160223173959_AddDisplayValuesForBarber")]
+    partial class AddDisplayValuesForBarber
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-beta8")
+                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -50,7 +47,8 @@ namespace WaitlistManager.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("RoleId");
+                    b.Property<string>("RoleId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -66,7 +64,8 @@ namespace WaitlistManager.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -81,7 +80,8 @@ namespace WaitlistManager.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -147,6 +147,59 @@ namespace WaitlistManager.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
+            modelBuilder.Entity("WaitlistManager.Models.Barber", b =>
+                {
+                    b.Property<int>("BarberId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("AvgCutTime");
+
+                    b.Property<string>("Bio");
+
+                    b.Property<bool>("CutsF");
+
+                    b.Property<bool>("CutsM");
+
+                    b.Property<string>("FullName")
+                        .IsRequired();
+
+                    b.Property<bool>("IsAdmin");
+
+                    b.Property<int>("Password");
+
+                    b.Property<string>("ProfilePicPath");
+
+                    b.HasKey("BarberId");
+                });
+
+            modelBuilder.Entity("WaitlistManager.Models.Visit", b =>
+                {
+                    b.Property<int>("VisitId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BarberId");
+
+                    b.Property<DateTime>("CheckOffTime");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 20);
+
+                    b.Property<string>("LastName");
+
+                    b.Property<DateTime>("SignInTime");
+
+                    b.Property<bool>("isCheckedOff")
+                        .HasAnnotation("Relational:DefaultValue", "False")
+                        .HasAnnotation("Relational:DefaultValueType", "System.Boolean");
+
+                    b.Property<bool>("isMissing")
+                        .HasAnnotation("Relational:DefaultValue", "False")
+                        .HasAnnotation("Relational:DefaultValueType", "System.Boolean");
+
+                    b.HasKey("VisitId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -177,6 +230,13 @@ namespace WaitlistManager.Migrations
                     b.HasOne("WaitlistManager.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("WaitlistManager.Models.Visit", b =>
+                {
+                    b.HasOne("WaitlistManager.Models.Barber")
+                        .WithMany()
+                        .HasForeignKey("BarberId");
                 });
         }
     }

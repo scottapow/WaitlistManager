@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.FullName).Remove(7, 10)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Bio)
         </th>
         <th>
@@ -19,12 +22,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CutsM)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProfilePicPath)
@@ -35,19 +32,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Bio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CutsF)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CutsM)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.FullName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Password)
+            @Html.DisplayFor(modelItem => item.Bio)
+        </td>
+        <td>
+            @Html.ValueFor(modelItem => item.CutsF)
+        </td>
+        <td>
+            @Html.ValueFor(modelItem => item.CutsM)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProfilePicPath)

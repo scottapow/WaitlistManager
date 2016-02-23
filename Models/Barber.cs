@@ -11,6 +11,7 @@ namespace WaitlistManager.Models
         public int BarberId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "We're almost positive you have a name")]
+        [Display(Name = "Barber Preference", Description = "Barber Name")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Well, do you or don't you?")]
@@ -28,7 +29,7 @@ namespace WaitlistManager.Models
         public string ProfilePicPath { get; set;}
 
         [DataType(DataType.Password)]
-        [RegularExpression("/^\\d{5}$/", ErrorMessage = "Password must be a 5 digits, no letters or special characters.")]
+        [RegularExpression("\\d{5}", ErrorMessage = "Password must be a 5 digits, no letters or special characters.")]
         public int Password { get; set; }
 
         [ScaffoldColumn(false)]

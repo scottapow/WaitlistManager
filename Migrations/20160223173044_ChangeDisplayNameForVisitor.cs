@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
+using Microsoft.Data.Entity.Metadata;
 
 namespace WaitlistManager.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class ChangeDisplayNameForVisitor : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,6 +47,25 @@ namespace WaitlistManager.Migrations
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
                 });
             migrationBuilder.CreateTable(
+                name: "Barber",
+                columns: table => new
+                {
+                    BarberId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AvgCutTime = table.Column<double>(nullable: false),
+                    Bio = table.Column<string>(nullable: true),
+                    CutsF = table.Column<bool>(nullable: false),
+                    CutsM = table.Column<bool>(nullable: false),
+                    FullName = table.Column<string>(nullable: false),
+                    IsAdmin = table.Column<bool>(nullable: false),
+                    Password = table.Column<int>(nullable: false),
+                    ProfilePicPath = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Barber", x => x.BarberId);
+                });
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -56,7 +73,7 @@ namespace WaitlistManager.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<string>(nullable: true)
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,7 +82,8 @@ namespace WaitlistManager.Migrations
                         name: "FK_IdentityRoleClaim<string>_IdentityRole_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
@@ -75,7 +93,7 @@ namespace WaitlistManager.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,7 +102,8 @@ namespace WaitlistManager.Migrations
                         name: "FK_IdentityUserClaim<string>_ApplicationUser_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
@@ -93,7 +112,7 @@ namespace WaitlistManager.Migrations
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,7 +121,8 @@ namespace WaitlistManager.Migrations
                         name: "FK_IdentityUserLogin<string>_ApplicationUser_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
@@ -118,12 +138,38 @@ namespace WaitlistManager.Migrations
                         name: "FK_IdentityUserRole<string>_IdentityRole_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_IdentityUserRole<string>_ApplicationUser_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+            migrationBuilder.CreateTable(
+                name: "Visit",
+                columns: table => new
+                {
+                    VisitId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BarberId = table.Column<int>(nullable: false),
+                    CheckOffTime = table.Column<DateTime>(nullable: false),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: true),
+                    SignInTime = table.Column<DateTime>(nullable: false),
+                    isCheckedOff = table.Column<bool>(nullable: false, defaultValue: false),
+                    isMissing = table.Column<bool>(nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visit", x => x.VisitId);
+                    table.ForeignKey(
+                        name: "FK_Visit_Barber_BarberId",
+                        column: x => x.BarberId,
+                        principalTable: "Barber",
+                        principalColumn: "BarberId",
+                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -145,8 +191,10 @@ namespace WaitlistManager.Migrations
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
+            migrationBuilder.DropTable("Visit");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
+            migrationBuilder.DropTable("Barber");
         }
     }
 }

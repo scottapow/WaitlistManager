@@ -18,13 +18,12 @@ namespace WaitlistManager.Models
                 .HasDefaultValue(false);
             visit.Property(v => v.isMissing)
                 .HasDefaultValue(false);
-
             
 
             // Barber Data Context Configuration  
             
 
-
+            
       
         }
     }
