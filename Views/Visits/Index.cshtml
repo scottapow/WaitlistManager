@@ -1,14 +1,12 @@
 @model IEnumerable<WaitlistManager.Models.Visit>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Waitlist Manager";
 }
 
-<h2>Index</h2>
+<h2>Derby City Chop Shop</h2>
+<h3>Sign in below</h3>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <tr>
         <th>
@@ -34,11 +32,9 @@
         </td>
     </tr>
 }
-    <tr>
-        <td>
-            <a asp-action="Create">Sign In</a>
-        </td>
-        <td></td>
-        <td></td>
-    </tr>
+
+            
+
 </table>
+<hr />
+<a asp-action="Create"><h1 class="text-center">Sign In</h1></a>

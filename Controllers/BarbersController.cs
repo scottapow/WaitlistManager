@@ -3,16 +3,23 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using WaitlistManager.Models;
+using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
+using System.IO;
+using Microsoft.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace WaitlistManager.Controllers
 {
     public class BarbersController : Controller
     {
         private ApplicationDbContext _context;
+        private IHostingEnvironment _environment;
 
-        public BarbersController(ApplicationDbContext context)
+        public BarbersController(ApplicationDbContext context, IHostingEnvironment environment)
         {
-            _context = context;    
+            _context = context;
+            _environment = environment; 
         }
 
         // GET: Barbers
@@ -47,16 +54,26 @@ namespace WaitlistManager.Controllers
         // POST: Barbers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Barber barber)
+        public async Task<IActionResult> Create(Barber barber, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                var uploads = Path.Combine(_environment.WebRootPath, "ProfilePicPath");
+                if (image != null)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(image.ContentDisposition).FileName.Trim('"');
+                    await image.SaveAsAsync(Path.Combine(uploads, fileName));
+                }
                 _context.Barbers.Add(barber);
                 _context.SaveChanges();
+                barber.ProfilePicPath = uploads;
+
                 return RedirectToAction("Index");
             }
             return View(barber);
         }
+
+
 
         // GET: Barbers/Edit/5
         public IActionResult Edit(int? id)

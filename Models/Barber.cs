@@ -11,21 +11,25 @@ namespace WaitlistManager.Models
         public int BarberId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "We're almost positive you have a name")]
-        [Display(Name = "Barber Preference", Description = "Barber Name")]
+        [Display(Name = "Barber Preference")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Well, do you or don't you?")]
+        [Display(Name = "Cuts Female Styles")]
         public bool CutsF { get; set; }
 
         [Required(ErrorMessage = "Well, do you or don't you?")]
+        [Display(Name = "Cuts Male Styles")]
         public bool CutsM { get; set; }
 
+        [MaxLength(400, ErrorMessage = "That's too long. Have you no brevity?")]
         public string Bio { get; set; }
 
         [ScaffoldColumn(false)]
         public double AvgCutTime { get; set; }
 
         [DataType(DataType.ImageUrl)]
+        [Display(Name = "Profile Image")]
         public string ProfilePicPath { get; set;}
 
         [DataType(DataType.Password)]

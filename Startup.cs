@@ -106,7 +106,7 @@ namespace WaitlistManager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Visits}/{action=Index}/{id?}");
             });
         }
 
