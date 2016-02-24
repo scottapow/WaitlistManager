@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add a new barber to Waitlist Manager</a>
 </p>
 <table class="table">
     <tr>
@@ -44,13 +44,19 @@
             @Html.ValueFor(modelItem => item.CutsM)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProfilePicPath)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.BarberId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.BarberId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.BarberId">Delete</a>
-        </td>
-    </tr>
+            <img src="@("/ProfilePicPath/" + item.ProfilePicPath)" alt="Profile Picture" class="profile"/>
+    </td>
+
+    <td>
+
+        <a asp-action="Edit" asp-route-id="@item.BarberId">Edit</a> |
+
+        <a asp-action="Details" asp-route-id="@item.BarberId">Details</a> |
+
+        <a asp-action="Delete" asp-route-id="@item.BarberId">Delete</a>
+
+    </td>
+
+</tr>
 }
 </table>

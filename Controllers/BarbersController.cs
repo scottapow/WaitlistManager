@@ -63,10 +63,12 @@ namespace WaitlistManager.Controllers
                 {
                     var fileName = ContentDispositionHeaderValue.Parse(image.ContentDisposition).FileName.Trim('"');
                     await image.SaveAsAsync(Path.Combine(uploads, fileName));
+                    barber.ProfilePicPath = fileName;
                 }
+                
                 _context.Barbers.Add(barber);
                 _context.SaveChanges();
-                barber.ProfilePicPath = uploads;
+                
 
                 return RedirectToAction("Index");
             }
