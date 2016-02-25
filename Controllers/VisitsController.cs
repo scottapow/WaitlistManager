@@ -42,7 +42,7 @@ namespace WaitlistManager.Controllers
         // GET: Visits/Create
         public IActionResult Create()
         {
-            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "Barber");
+            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "FullName");
             return View();
         }
 

@@ -39,6 +39,6 @@ namespace WaitlistManager.Models
         [ScaffoldColumn(false)]
         public bool IsAdmin { get; set; }
 
-        public virtual ICollection<Visit> Visits { get; set; }
+        public ICollection<Visit> Visits { get; set; }
     }
 }
