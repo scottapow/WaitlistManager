@@ -8,8 +8,8 @@ using WaitlistManager.Models;
 namespace WaitlistManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160225020605_StillTrying2")]
-    partial class StillTrying2
+    [Migration("20160225025052_StillTrying3")]
+    partial class StillTrying3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

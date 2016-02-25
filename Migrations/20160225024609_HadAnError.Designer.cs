@@ -8,8 +8,8 @@ using WaitlistManager.Models;
 namespace WaitlistManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160223173959_AddDisplayValuesForBarber")]
-    partial class AddDisplayValuesForBarber
+    [Migration("20160225024609_HadAnError")]
+    partial class HadAnError
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,7 +154,8 @@ namespace WaitlistManager.Migrations
 
                     b.Property<double>("AvgCutTime");
 
-                    b.Property<string>("Bio");
+                    b.Property<string>("Bio")
+                        .HasAnnotation("MaxLength", 400);
 
                     b.Property<bool>("CutsF");
 
@@ -177,7 +178,7 @@ namespace WaitlistManager.Migrations
                     b.Property<int>("VisitId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BarberId");
+                    b.Property<int?>("BarberId");
 
                     b.Property<DateTime>("CheckOffTime");
 

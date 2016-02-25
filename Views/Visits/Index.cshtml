@@ -1,40 +1,74 @@
 @model IEnumerable<WaitlistManager.Models.Visit>
 
 @{
-    ViewData["Title"] = "Waitlist Manager";
+    ViewData["Title"] = "{Barbershop Name}";
 }
 
-<h2>Derby City Chop Shop</h2>
-<h3>Sign in below</h3>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BarberId)
-        </th>
-    </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Barber.FullName)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.VisitId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.VisitId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.VisitId">Delete</a>
-        </td>
-    </tr>
-}
+<div class="panel panel-default">
+    <div class="panel-heading "><span class="h2">Wailist</span></div>
 
-            
 
-</table>
-<hr />
-<a asp-action="Create"><h1 class="text-center">Sign In</h1></a>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BarberId)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Barber.FullName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.VisitId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.VisitId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VisitId">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a asp-action="Create"><h1 class="text-center" id="sign-in">Sign In</h1></a>
+
+</div>
+
+
+
+
+@*Modal*@
+<div class="modal fade" id="patronModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Patron Name</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2 class="text-right">Barber Preference</h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2 class="text-left">Sign In Time</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-lg">Remove</button>
+                <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">Go Back</button>
+                <button type="button" class="btn btn-success btn-lg">Check off</button>
+            </div>
+        </div>
+    </div>
+</div> @*end modal*@
+
+

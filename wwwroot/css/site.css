@@ -1,17 +1,16 @@
 
 html {
-    position:relative;
-    min-height:100%
+    position: relative;
+    min-height: 100%;
 }
 
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    margin-bottom:60px;
+    margin-bottom: 60px;
 }
 
-/
-.body-content {
+/ .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -22,20 +21,33 @@ textarea {
     max-width: 280px;
 }
 
+#sign-in {
+    background-color: #fff;
+    background-image: -moz-linear-gradient(left, #fff, #f5f5f5, #fff);
+    background-image: -o-linear-gradient(left, #fff, #f5f5f5, #fff);
+    background-image: -webkit-gradient(linear, left, right, from(#fff), to(#f5f5f5, #fff));
+    background-image: -webkit-linear-gradient(left, #fff, #f5f5f5, #fff);
+    background-image: linear-gradient(to right, #fff, #f5f5f5, #fff);
+    padding: 20px 0;
+    border: 1px solid #f5f5f5;
+}
+
 .footer {
-    position:absolute;
-    bottom:0;
-    width:100%;
-    height:60px;
-    background-color:#f5f5f5
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
 }
+
 .container .text-muted {
-    margin:20px 0;
-    text-align:center
+    margin: 20px 0;
+    text-align: center;
 }
-.footer>.container {
-    padding-right:15px;
-    padding-left:15px
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .profile {
@@ -47,13 +59,14 @@ textarea {
 
 #CutsM, #CutsF {
     margin-top: 11px;
-      /* Double-sized Checkboxes */
-  -ms-transform: scale(1.3); /* IE */
-  -moz-transform: scale(1.3); /* FF */
-  -webkit-transform: scale(1.3); /* Safari and Chrome */
-  -o-transform: scale(1.3);
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.3); /* IE */
+    -moz-transform: scale(1.3); /* FF */
+    -webkit-transform: scale(1.3); /* Safari and Chrome */
+    -o-transform: scale(1.3);
+    transform: scale(1.3);
 }
 
-.pad-left-5px{
+.pad-left-5px {
     padding-left: 5px;
 }
