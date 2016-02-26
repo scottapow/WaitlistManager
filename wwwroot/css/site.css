@@ -21,15 +21,29 @@ textarea {
     max-width: 280px;
 }
 
-#sign-in {
+#sign-in-text {
     background-color: #fff;
-    background-image: -moz-linear-gradient(left, #fff, #f5f5f5, #fff);
-    background-image: -o-linear-gradient(left, #fff, #f5f5f5, #fff);
-    background-image: -webkit-gradient(linear, left, right, from(#fff), to(#f5f5f5, #fff));
-    background-image: -webkit-linear-gradient(left, #fff, #f5f5f5, #fff);
-    background-image: linear-gradient(to right, #fff, #f5f5f5, #fff);
+    background: -moz-linear-gradient(left, #fff, #eee, #fff);
+    background: -o-linear-gradient(left, #fff, #eee, #fff);
+    background: -webkit-gradient(linear, left, right, from(#fff), to(#eee, #fff));
+    background: -webkit-linear-gradient(left, #fff, #eee, #fff);
+    background: linear-gradient(to right, #fff, #eee, #fff);
     padding: 20px 0;
-    border: 1px solid #f5f5f5;
+    border: 1px solid #ddd;
+}
+
+    #sign-in-text:hover {
+        background-color: #f5f5f5;
+        background: -moz-linear-gradient(left, #f5f5f5, #eee, #f5f5f5);
+        background: -o-linear-gradient(left, #f5f5f5, #eee, #f5f5f5);
+        background: -webkit-gradient(linear, left, right, from(#f5f5f5), to(#eee, #f5f5f5));
+        background: -webkit-linear-gradient(left, #f5f5f5, #eee, #f5f5f5);
+        background: linear-gradient(to right, #f5f5f5, #eee, #f5f5f5);
+    }
+
+#sign-in-link:hover {
+    text-decoration: none;
+    color: #337ab7;
 }
 
 .footer {
