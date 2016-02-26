@@ -17,17 +17,26 @@
             <th>
                 @Html.DisplayNameFor(model => model.BarberId)
             </th>
+            <th>
+                Waiting
+            </th>
+            <th>
+                Time Left
+            </th>
         </tr>
+
         @{
             var isChecked = "unchecked";
-            var index = 0;
+            var index = 1;
+            
         }
         @foreach (var item in Model) {
 
             if (item.isCheckedOff == true) { isChecked = "active"; } else { isChecked = "unchecked"; }
-            index++;
+            
+            
             <tr class="@isChecked">
-                <td>@index</td>
+                <td><strong>@index</strong></td>
                 
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
@@ -36,15 +45,25 @@
                     @Html.DisplayFor(modelItem => item.Barber.FullName)
                 </td>
                 <td>
+                    <span>@DateTime.Now.Subtract(item.SignInTime).ToString("hh") hr</span>
+                    <span>@DateTime.Now.Subtract(item.SignInTime).ToString("mm") min.</span>
+                </td>
+                <td>
+                    
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.VisitId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.VisitId">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.VisitId">Delete</a>
                 </td>
+                
             </tr>
+
+            index++;
         }
     </table>
 
-    <a asp-action="Create" id="sign-in-link"><h1 class="text-center" id="sign-in-text">Sign In</h1></a>
+    <a asp-action="Create" id="sign-in-link"><h2 class="text-center" id="sign-in-text">Sign In<small> (Appoximate time of Cut: @ViewData["wait"])</small></h2></a>
 
 </div>
 

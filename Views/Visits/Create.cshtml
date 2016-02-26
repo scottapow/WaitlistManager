@@ -14,7 +14,7 @@
         <hr />
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <label class="col-md-2 control-label" for="FirstName">First Name</label>
             <div class="col-md-10">
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger" />
@@ -31,6 +31,7 @@
             <label asp-for="BarberId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="BarberId" asp-items="barbers" class="form-control">
+                    <option> </option>
                 </select>
                 <span asp-validation-for="BarberId" class="text-danger" />
             </div>
