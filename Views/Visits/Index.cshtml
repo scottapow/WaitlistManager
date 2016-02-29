@@ -35,9 +35,10 @@
             if (item.isCheckedOff == true) { isChecked = "active"; } else { isChecked = "unchecked"; }
             
             
-            <tr class="@isChecked">
-                <td><strong>@index</strong></td>
-                
+            <tr class="@isChecked td-style">
+                <td>
+                    <strong>@index</strong>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                 </td>
@@ -52,9 +53,9 @@
                     
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.VisitId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.VisitId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VisitId">Delete</a>
+                    <a class="btn btn-default" aria-label="scissors" asp-action="Cut" asp-route-id="@item.VisitId">
+                        <span class="glyphicon glyphicon-scissors" aria-hidden="true"></span>
+                    </a>
                 </td>
                 
             </tr>

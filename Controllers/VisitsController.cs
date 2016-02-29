@@ -5,6 +5,7 @@ using Microsoft.Data.Entity;
 using WaitlistManager.Models;
 using System;
 using WaitlistManager.Services;
+using System.Threading.Tasks;
 
 namespace WaitlistManager.Controllers
 {
@@ -28,8 +29,15 @@ namespace WaitlistManager.Controllers
             var currentWaitPerVisitor = 8.00;
 
             var applicationDbContext = _context.Visits.Include(v => v.Barber);
-            var activeVisitors = _context.Visits.Count() - _context.Visits.Where(x => x.isCheckedOff).Count();
-            ViewData["wait"] = _waitcalc.CalculateWait(activeVisitors, currentWaitPerVisitor).ToLocalTime().ToString("hh:mm tt");
+
+            var activeVisitors = _context.Visits.Count() -
+                _context.Visits.Where(x => x.isCheckedOff).Count();
+
+            ViewData["wait"] = _waitcalc
+                .CalculateWait(activeVisitors, currentWaitPerVisitor)
+                .ToLocalTime()
+                .ToString("hh:mm tt");
+
             return View(applicationDbContext.ToList());
         }
 
@@ -73,8 +81,8 @@ namespace WaitlistManager.Controllers
             return View(visit);
         }
 
-        // GET: Visits/Edit/5
-        public IActionResult Edit(int? id)
+        [HttpGet]
+        public IActionResult Cut(int? id)
         {
             if (id == null)
             {
@@ -82,56 +90,38 @@ namespace WaitlistManager.Controllers
             }
 
             Visit visit = _context.Visits.Single(m => m.VisitId == id);
-            if (visit == null)
-            {
-                return HttpNotFound();
-            }
-            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "Barber", visit.BarberId);
+
             return View(visit);
         }
 
-        // POST: Visits/Edit/5
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Visit visit)
+        public async Task<IActionResult> Cut(int id)
         {
             if (ModelState.IsValid)
             {
+                Visit visit = _context.Visits.SingleOrDefault(m => m.VisitId == id);
+                visit.isCheckedOff = true;
+                visit.CheckOffTime = DateTime.Now;
                 _context.Update(visit);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Visits");
             }
-            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "Barber", visit.BarberId);
-            return View(visit);
+             return View("Index");
         }
 
-        // GET: Visits/Delete/5
+        [HttpPost]
         [ActionName("Delete")]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (ModelState.IsValid)
             {
-                return HttpNotFound();
+                Visit visit = _context.Visits.SingleOrDefault(m => m.VisitId == id);
+                _context.Visits.Remove(visit);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Visits");
             }
-
-            Visit visit = _context.Visits.Single(m => m.VisitId == id);
-            if (visit == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(visit);
-        }
-
-        // POST: Visits/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            Visit visit = _context.Visits.Single(m => m.VisitId == id);
-            _context.Visits.Remove(visit);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            return View("Index");
         }
     }
 }

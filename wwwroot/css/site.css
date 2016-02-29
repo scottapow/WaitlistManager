@@ -84,3 +84,9 @@ textarea {
 .pad-left-5px {
     padding-left: 5px;
 }
+
+table.table>tbody>tr.td-style>td {
+    vertical-align: middle;
+    font-size: 1.14em;
+}
+

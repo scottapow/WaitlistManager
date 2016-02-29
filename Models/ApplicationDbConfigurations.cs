@@ -14,6 +14,8 @@ namespace WaitlistManager.Models
 
             // Visit Data Context Configuration
 
+            visit.Property(v => v.VisitId)
+                .UseSqlServerIdentityColumn();
             visit.Property(v => v.isCheckedOff)
                 .HasDefaultValue(false);
             visit.Property(v => v.isMissing)

@@ -11,7 +11,7 @@ namespace WaitlistManager.Models
         public int VisitId { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "First Name")]
         [MaxLength(20, ErrorMessage = "Your first name is not actually that long... right?")]
         public string FirstName { get; set; }
 

@@ -4,11 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Add a new barber to Waitlist Manager</a>
-</p>
+<div class="text-center">
+    <h1 class="pull-left">
+        Barbers<small>
+            <a asp-action="Create" class="btn btn-sm btn-warning">Add a new barber</a>
+        </small>
+    </h1>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -18,10 +20,10 @@
             @Html.DisplayNameFor(model => model.Bio)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CutsF)
+            Cut F
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CutsM)
+            Cut M
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ProfilePicPath)
@@ -31,29 +33,29 @@
     
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td class="col-xs-1">
             <strong>@Html.DisplayFor(modelItem => item.FullName)</strong>
         </td>
-        <td>
+        <td class="col-xs-4">
             @Html.DisplayFor(modelItem => item.Bio)
         </td>
-        <td>
+        <td class="col-xs-1">
             @Html.ValueFor(modelItem => item.CutsF)
         </td>
-        <td>
+        <td class="col-xs-1">
             @Html.ValueFor(modelItem => item.CutsM)
         </td>
-        <td>
+        <td class="col-xs-2">
             <img src="@("/ProfilePicPath/" + item.ProfilePicPath)" alt="Profile Picture" class="profile"/>
-    </td>
+        </td>
 
-    <td>
+        <td class="col-xs-1">
 
-        <a asp-action="Edit" asp-route-id="@item.BarberId">Edit</a> |
+        <a asp-action="Edit" asp-route-id="@item.BarberId">Edit</a><br />
 
-        <a asp-action="Details" asp-route-id="@item.BarberId">Details</a> |
+        <a asp-action="Details" asp-route-id="@item.BarberId">Details</a><br />
 
-        <a asp-action="Delete" asp-route-id="@item.BarberId">Delete</a>
+        <a asp-action="Delete" asp-route-id="@item.BarberId">Delete</a><br />
 
     </td>
 
