@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace WaitlistManager.Models
 {
@@ -32,6 +33,8 @@ namespace WaitlistManager.Models
         [Display(Name = "Profile Image")]
         public string ProfilePicPath { get; set;}
 
+        public string Email { get; set; }
+
         [DataType(DataType.Password)]
         [RegularExpression("\\d{5}", ErrorMessage = "Password must be a 5 digits, no letters or special characters.")]
         public int Password { get; set; }
@@ -40,5 +43,7 @@ namespace WaitlistManager.Models
         public bool IsAdmin { get; set; }
 
         public ICollection<Visit> Visits { get; set; }
+
+        
     }
 }

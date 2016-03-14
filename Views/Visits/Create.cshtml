@@ -1,7 +1,6 @@
-
 @model WaitlistManager.Models.Visit
-
 @{
+    Layout = "_ModalPatrial";
     ViewData["Title"] = "Create";
     var barbers = (IEnumerable<SelectListItem>)ViewData["BarberId"];
 }

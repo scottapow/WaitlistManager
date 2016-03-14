@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WaitlistManager.Models;
 using WaitlistManager.Services;
+using Microsoft.AspNet.Identity;
 
 namespace WaitlistManager
 {
@@ -50,7 +51,18 @@ namespace WaitlistManager
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+            //    options =>
+            //    options.Password = new PasswordOptions
+            //    // setting the password constraints
+            //    { 
+            //        RequireDigit = true,
+            //        RequiredLength = 5,
+            //        RequireLowercase = false,
+            //        RequireUppercase = false,
+            //        RequireNonLetterOrDigit = false,
+            //    }
+            )
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

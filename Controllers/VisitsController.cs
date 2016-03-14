@@ -6,6 +6,7 @@ using WaitlistManager.Models;
 using System;
 using WaitlistManager.Services;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace WaitlistManager.Controllers
 {
@@ -23,9 +24,13 @@ namespace WaitlistManager.Controllers
         // GET: Visits
         public IActionResult Index()
         {
-            //Enter or inject the average wait per visit.
-            //Could be calculated based on another service which tallys the amount of barbers working
-                // and the sum of average cuttime for each barber.
+
+            // Enter or inject the average wait per visit.
+            // Could be calculated based on another service which tallys the amount of barbers working
+            // and the sum of average cuttime for each barber.
+            var email = User.Identity.Name;
+            var barber = _context.Barbers.FirstOrDefault(b => b.Email == email);
+
             var currentWaitPerVisitor = 8.00;
 
             var applicationDbContext = _context.Visits.Include(v => v.Barber);

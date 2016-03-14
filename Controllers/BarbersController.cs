@@ -8,9 +8,11 @@ using Microsoft.AspNet.Http;
 using System.IO;
 using Microsoft.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Authorization;
 
 namespace WaitlistManager.Controllers
 {
+    [Authorize]
     public class BarbersController : Controller
     {
         private ApplicationDbContext _context;
@@ -23,29 +25,14 @@ namespace WaitlistManager.Controllers
         }
 
         // GET: Barbers
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View(_context.Barbers.ToList());
         }
 
-        // GET: Barbers/Details/5
-        public IActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
-
-            Barber barber = _context.Barbers.Single(m => m.BarberId == id);
-            if (barber == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(barber);
-        }
-
         // GET: Barbers/Create
+        
         public IActionResult Create()
         {
             return View();

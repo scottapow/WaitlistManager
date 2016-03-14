@@ -1,6 +1,7 @@
 @model IEnumerable<WaitlistManager.Models.Visit>
 
 @{
+
     ViewData["Title"] = "{Barbershop Name}";
 }
 
@@ -64,38 +65,18 @@
         }
     </table>
 
-    <a asp-action="Create" id="sign-in-link"><h2 class="text-center" id="sign-in-text">Sign In<small> (Appoximate time of Cut: @ViewData["wait"])</small></h2></a>
+    
 
+    <a id="sign-in-link" data-toggle="modal" data-target="#sign-in">
+        <h2 class="text-center" id="sign-in-text">
+            Sign In <small> (Appoximate time of Cut: @ViewData["wait"])</small>
+        </h2>
+    </a>
+
+    @await Html.PartialAsync("_ModalPartial")
 </div>
 
 
 
-
-@*Modal*@
-<div class="modal fade" id="patronModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Patron Name</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2 class="text-right">Barber Preference</h2>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2 class="text-left">Sign In Time</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-lg">Remove</button>
-                <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal">Go Back</button>
-                <button type="button" class="btn btn-success btn-lg">Check off</button>
-            </div>
-        </div>
-    </div>
-</div> @*end modal*@
 
 

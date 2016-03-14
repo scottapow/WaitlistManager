@@ -48,12 +48,10 @@
         <td class="col-xs-2">
             <img src="@("/ProfilePicPath/" + item.ProfilePicPath)" alt="Profile Picture" class="profile"/>
         </td>
-
+        
         <td class="col-xs-1">
 
         <a asp-action="Edit" asp-route-id="@item.BarberId">Edit</a><br />
-
-        <a asp-action="Details" asp-route-id="@item.BarberId">Details</a><br />
 
         <a asp-action="Delete" asp-route-id="@item.BarberId">Delete</a><br />
 
