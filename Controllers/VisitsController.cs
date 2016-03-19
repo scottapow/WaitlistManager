@@ -7,6 +7,7 @@ using System;
 using WaitlistManager.Services;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using WaitlistManager.ViewModels.Visits;
 
 namespace WaitlistManager.Controllers
 {
@@ -24,26 +25,30 @@ namespace WaitlistManager.Controllers
         // GET: Visits
         public IActionResult Index()
         {
-
+            
             // Enter or inject the average wait per visit.
             // Could be calculated based on another service which tallys the amount of barbers working
             // and the sum of average cuttime for each barber.
             var email = User.Identity.Name;
             var barber = _context.Barbers.FirstOrDefault(b => b.Email == email);
-
+            
             var currentWaitPerVisitor = 8.00;
-
+            var visit = new Visit();
             var applicationDbContext = _context.Visits.Include(v => v.Barber);
 
             var activeVisitors = _context.Visits.Count() -
                 _context.Visits.Where(x => x.isCheckedOff).Count();
 
+            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "FullName");
             ViewData["wait"] = _waitcalc
                 .CalculateWait(activeVisitors, currentWaitPerVisitor)
                 .ToLocalTime()
                 .ToString("hh:mm tt");
 
-            return View(applicationDbContext.ToList());
+            return View(new VisitsViewModel {
+                Visits = _context.Visits.ToList(),
+                Visit = visit
+            });
         }
 
         // GET: Visits/Details/5
@@ -97,6 +102,14 @@ namespace WaitlistManager.Controllers
             Visit visit = _context.Visits.Single(m => m.VisitId == id);
 
             return View(visit);
+        }
+
+        // intended to be called
+        [HttpGet]
+        public IActionResult SelectBarber()
+        {
+            ViewData["BarberPasswords"] = new SelectList(_context.Barbers, "Password", "Password");
+                return View();
         }
 
 
