@@ -48,12 +48,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Barber.FullName)
                 </td>
-                <td>
-                    <span>@DateTime.Now.Subtract(item.SignInTime).ToString("hh") hr</span>
-                    <span>@DateTime.Now.Subtract(item.SignInTime).ToString("mm") min.</span>
+                <td class="cu">
+                    @DateTime.Now.Subtract(item.SignInTime).ToString("hh"):@DateTime.Now.Subtract(item.SignInTime).ToString("mm")
                 </td>
-                <td>
-                    
+                <td class="cd">
+                    02:15
                 </td>
                 <td>
                     <a class="btn btn-default" aria-label="scissors" asp-action="Cut" asp-route-id="@item.VisitId">

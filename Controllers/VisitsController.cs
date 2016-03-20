@@ -141,5 +141,12 @@ namespace WaitlistManager.Controllers
             }
             return View("Index");
         }
+
+        [HttpPost]
+        public async Task<Boolean> SelectBarber(int pass)
+        {
+            var exists = await _context.Barbers.AnyAsync(x => x.Password == pass);
+            return exists;
+        }
     }
 }
