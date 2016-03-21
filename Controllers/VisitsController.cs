@@ -98,20 +98,12 @@ namespace WaitlistManager.Controllers
             {
                 return HttpNotFound();
             }
-
             Visit visit = _context.Visits.Single(m => m.VisitId == id);
+            CutViewModel cvm = new CutViewModel();
+                cvm.Visitor = visit;
 
-            return View(visit);
+            return View(cvm);
         }
-
-        // intended to be called
-        [HttpGet]
-        public IActionResult SelectBarber()
-        {
-            ViewData["BarberPasswords"] = new SelectList(_context.Barbers, "Password", "Password");
-                return View();
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> Cut(int id)
@@ -143,10 +135,10 @@ namespace WaitlistManager.Controllers
         }
 
         [HttpPost]
-        public async Task<Boolean> SelectBarber(int pass)
+        public JsonResult SelectBarber(int pass)
         {
-            var exists = await _context.Barbers.AnyAsync(x => x.Password == pass);
-            return exists;
+            var exists = _context.Barbers.Any(x => x.Password == pass);
+            return Json(exists);
         }
     }
 }

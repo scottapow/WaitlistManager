@@ -43,7 +43,7 @@
                 timeDisplay(splitDown[l][0],
                             splitDown[l][1]);
         };
-    }, 1000);
+    }, 60000);
 
 // Adjusts hours and minutes, up or down for CountUp elements
     function timeUp(h, m) {
@@ -70,35 +70,39 @@
         var hourString = "",
             minString = "";
         if (hours > 0) {
-            hourString = "" + hours + " hr ";
+            hourString = "" + (hours - 0) + " hr ";
         }
         if (mins !== 0) {
-            minString = "" + mins + " min";
+            minString = "" + (mins - 0) + " min";
         }
         if (mins < 1 && hours < 1) {
-            minString = "Soon!";
+            minString = "0";
         }
         return (hourString + minString);
     };
 
 
     
-    //$('#SelectBarber').on("click", function () {
-    //    if ($('form').valid()) {
-    //        $.ajax({
-    //            url: '@Url.RouteUrl(new{ action="GetAnswer", controller="Home"})',
-    //            data: { Answer: '', Question: $('#Question').val() },
-    //            type: 'POST',
-    //            dataType: 'json',
-    //            contentType: "application/json; charset=utf-8",
-    //            success: function (resp) {
-    //                openAlert(resp);
-    //            }
-    //        });
-    //    }
-    //    else {
-    //        closeAlert();
-    //    }
-    //});
+    $('.submit').on("click", function () {
+        console.log("That Worked");
+            $.ajax({
+                url: "/Visits/SelectBarber/?=" + $('#Password').val(),
+                data: { Password: $('#Password').val(), isValid: false },
+                type: 'post',
+                datatype: 'json',
+                contenttype: "application/json; charset=utf-8",
+                success: function (res) {
+                    if (res) {
+                        $('input[type=submit]').removeAttr('disabled');
+                        $('#Password').val("");
+                        $('#validText').html("You may now Cut or Delete");
+                        $('#validText').addClass('text-success').removeClass('text-danger');
+                    } else {
+                        $('#validText').html("That's not correct. If you're not a barber, please leave this page")
+                        $('#validText').addClass('text-danger').removeClass('text-success');
+                    }
+                }
+            });
+    });
 
 }());

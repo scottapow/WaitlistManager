@@ -9,6 +9,7 @@ namespace WaitlistManager.ViewModels.Visits
     public class VisitsViewModel
     {
         public IEnumerable<Visit> Visits { get; set; }
+
         public Visit Visit { get; set; }
     }
 }
