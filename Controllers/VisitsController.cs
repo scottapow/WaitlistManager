@@ -26,12 +26,6 @@ namespace WaitlistManager.Controllers
         public IActionResult Index()
         {
             
-            // Enter or inject the average wait per visit.
-            // Could be calculated based on another service which tallys the amount of barbers working
-            // and the sum of average cuttime for each barber.
-            var email = User.Identity.Name;
-            var barber = _context.Barbers.FirstOrDefault(b => b.Email == email);
-            
             var currentWaitPerVisitor = 8.00;
             var visit = new Visit();
             var applicationDbContext = _context.Visits.Include(v => v.Barber);
@@ -47,7 +41,8 @@ namespace WaitlistManager.Controllers
 
             return View(new VisitsViewModel {
                 Visits = _context.Visits.ToList(),
-                Visit = visit
+                Visit = visit,
+                Barbers = _context.Barbers.ToList()
             });
         }
 
@@ -78,17 +73,21 @@ namespace WaitlistManager.Controllers
         // POST: Visits/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Visit visit)
+        public IActionResult Create(VisitsViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var visit = new Visit {
+                    FirstName = model.Visit.FirstName,
+                    LastName = model.Visit.LastName,
+                    BarberId = model.Visit.BarberId
+                };
                 visit.SignInTime = DateTime.Now;
                 _context.Visits.Add(visit);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "Barber", visit.BarberId);
-            return View(visit);
+            return View("Index");
         }
 
         [HttpGet]

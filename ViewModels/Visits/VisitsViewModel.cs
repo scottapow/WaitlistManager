@@ -11,5 +11,7 @@ namespace WaitlistManager.ViewModels.Visits
         public IEnumerable<Visit> Visits { get; set; }
 
         public Visit Visit { get; set; }
+
+        public IEnumerable<Barber> Barbers { get; set; }
     }
 }
