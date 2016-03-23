@@ -109,10 +109,14 @@ namespace WaitlistManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 Visit visit = _context.Visits.SingleOrDefault(m => m.VisitId == id);
+                //Barber barber = _context.Barbers.SingleOrDefault(m => m.BarberId == visit.BarberId);
+                //    barber.Visits.Add(visit);
                 visit.isCheckedOff = true;
                 visit.CheckOffTime = DateTime.Now;
                 _context.Update(visit);
+                //_context.Update(barber);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Visits");
             }

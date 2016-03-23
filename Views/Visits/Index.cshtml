@@ -29,15 +29,24 @@
         @{
             var isChecked = "unchecked";
             var index = 1;
-
         }
 
 
         @foreach (var item in Model.Visits) {
 
             if (item.isCheckedOff == true) { isChecked = "active"; } else { isChecked = "unchecked"; }
-            
-            
+            string cu = "cu";
+            string cd = "cu";
+            string cuText = DateTime.Now.Subtract(item.SignInTime).ToString("hh") + ":" + DateTime.Now.Subtract(item.SignInTime).ToString("mm");
+            string cdText = "02:15";
+            if (item.CheckOffTime != DateTime.MinValue && DateTime.Now > item.CheckOffTime) {
+                cu = "";
+                cd = "";
+                cuText = "Over";
+                cdText = "None";
+            }
+
+
             <tr class="@isChecked td-style">
                 <td>
                     <strong>@index</strong>
@@ -48,11 +57,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Barber.FullName)
                 </td>
-                <td class="cu">
-                    @DateTime.Now.Subtract(item.SignInTime).ToString("hh"):@DateTime.Now.Subtract(item.SignInTime).ToString("mm")
+                <td class="@cu">
+                    @cuText
                 </td>
-                <td class="cd">
-                    02:15
+                <td class="@cd">
+                    @cdText
                 </td>
                 <td>
                     <a class="btn btn-default" aria-label="scissors" asp-action="Cut" asp-route-id="@item.VisitId">
@@ -133,8 +142,3 @@
     </div>
 
 </div>
-
-
-
-
-
