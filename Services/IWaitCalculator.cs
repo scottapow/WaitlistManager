@@ -8,6 +8,8 @@ namespace WaitlistManager.Services
     public interface IWaitCalculator
     {
         DateTime CalculateWait(int visitors, double waitPerVisit);
+
+        double CalculateWaitPerVisit(int visitors, double shopCutAve, double barberCutAve, int barberCurrentVisitors);
     }
 }
 

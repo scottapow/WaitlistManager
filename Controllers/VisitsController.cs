@@ -15,29 +15,47 @@ namespace WaitlistManager.Controllers
     {
         private ApplicationDbContext _context;
         private IWaitCalculator _waitcalc;
+        private IAverageCalculator _avecalc;
 
-        public VisitsController(ApplicationDbContext context, IWaitCalculator waitcalc)
+        public VisitsController(ApplicationDbContext context, IWaitCalculator waitcalc, IAverageCalculator avecalc)
         {
             _context = context;
             _waitcalc = waitcalc;
+            _avecalc = avecalc;
         }
 
         // GET: Visits
         public IActionResult Index()
         {
-            
-            var currentWaitPerVisitor = 8.00;
-            var visit = new Visit();
-            var applicationDbContext = _context.Visits.Include(v => v.Barber);
 
-            var activeVisitors = _context.Visits.Count() -
-                _context.Visits.Where(x => x.isCheckedOff).Count();
+            if (!_context.Shops.Any())
+            {
+                return RedirectToAction("Index", "Shops");
+            }
+            
+
+            var visit = new Visit();
+            var currentVisits = _context.Visits;
+            var activeVisitors = currentVisits.Count() -
+                currentVisits.Where(x => x.isCheckedOff).Count();
+            var shop = _context.Shops.First();
+
+            if (currentVisits.Count() != 0)
+            {
+                foreach (var v in currentVisits)
+                {
+                    v.WaitTime = (v.WaitTime - DateTime.Now.Subtract(v.SignInTime).TotalMinutes) + 1;
+                    _context.Update(v);
+                }
+                _context.SaveChanges();
+            };
 
             ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "FullName");
             ViewData["wait"] = _waitcalc
-                .CalculateWait(activeVisitors, currentWaitPerVisitor)
+                .CalculateWait(activeVisitors, shop.CutTimeAverage)
                 .ToLocalTime()
                 .ToString("hh:mm tt");
+            ViewData["ShopName"] = shop.ShopName;
 
             return View(new VisitsViewModel {
                 Visits = _context.Visits.ToList(),
@@ -80,8 +98,38 @@ namespace WaitlistManager.Controllers
                 var visit = new Visit {
                     FirstName = model.Visit.FirstName,
                     LastName = model.Visit.LastName,
-                    BarberId = model.Visit.BarberId
+                    BarberId = model.Visit.BarberId,
                 };
+                visit.Barber = _context.Barbers.SingleOrDefault(x => x.BarberId == model.Visit.BarberId);
+
+                var currentVisits = _context.Visits;
+                var barbersVisitCount = currentVisits.Where(x => x.BarberId != null).GroupBy(g => g.BarberId)
+                    .ToDictionary(gx => gx.Key, gx => gx.ToList());
+
+                int activeVisitors = currentVisits.Count() -
+                currentVisits.Where(x => x.isCheckedOff).Count();
+                var shop = _context.Shops.First();
+
+                if (visit.Barber != null)
+                {
+                    var bvc = 0;
+                    if (!currentVisits.Any(x => x.BarberId == model.Visit.BarberId))
+                    {
+                        bvc = 0;
+                    } else
+                    {
+                        bvc = barbersVisitCount[visit.BarberId].Count;
+                    }
+                    visit.WaitTime = _waitcalc
+                                    .CalculateWaitPerVisit(activeVisitors,
+                                                           shop.CutTimeAverage,
+                                                           visit.Barber.AvgCutTime,
+                                                           bvc);
+                } else
+                {
+                    visit.WaitTime = (shop.CutTimeAverage * activeVisitors);
+                }
+                
                 visit.SignInTime = DateTime.Now;
                 _context.Visits.Add(visit);
                 _context.SaveChanges();
@@ -109,14 +157,43 @@ namespace WaitlistManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                
                 Visit visit = _context.Visits.SingleOrDefault(m => m.VisitId == id);
-                //Barber barber = _context.Barbers.SingleOrDefault(m => m.BarberId == visit.BarberId);
-                //    barber.Visits.Add(visit);
+                var barbers = _context.Barbers;
+            // retrieved from the SelectBarber action.
+                int pass = (int)TempData["pass"];
+            // adding or updating the Visit's Barber & BarberId based on who is cutting(pass)
+                visit.Barber = barbers.SingleOrDefault(m => m.Password == pass);
+                visit.BarberId = barbers.SingleOrDefault(m => m.Password == pass).BarberId;
+                Barber barber = barbers.SingleOrDefault(m => m.BarberId == visit.BarberId);
+                var shop = _context.Shops.First();
+                var cutLength = shop.CutTimeAverage;
+                // Saves the amount of minutes since the last checkoff and now
+                if (visit.BarberId != null)
+                {
+                    var visitsWId = _context.Visits.Where(x => x.BarberId == visit.BarberId).ToList();
+                    var last = visitsWId.FindLast(x => x.isCheckedOff);
+                    if (last != null)
+                    {
+                        cutLength = (DateTime.Now - last.CheckOffTime).TotalMinutes;
+
+                        barber.AvgCutTime = _avecalc.CalculateAverage(barber.AvgCutTime, barber.VisitAmount, cutLength);
+                        barber.VisitAmount += 1;
+                    }
+                }
+                
+                shop.CutTimeAverage =
+                    _avecalc.CalculateAverage(shop.CutTimeAverage, 
+                                                shop.TotalCompletedVisits, 
+                                                cutLength);
+                shop.TotalCompletedVisits += 1;
+                _context.Update(shop);
+                
                 visit.isCheckedOff = true;
                 visit.CheckOffTime = DateTime.Now;
+
+
                 _context.Update(visit);
-                //_context.Update(barber);
+                _context.Update(barber);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Visits");
             }
@@ -140,8 +217,10 @@ namespace WaitlistManager.Controllers
         [HttpPost]
         public JsonResult SelectBarber(int pass)
         {
+            TempData["pass"] = pass;
             var exists = _context.Barbers.Any(x => x.Password == pass);
             return Json(exists);
+            
         }
     }
 }

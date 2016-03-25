@@ -1,7 +1,7 @@
 @model WaitlistManager.ViewModels.Visits.VisitsViewModel
 
 @{
-    ViewData["Title"] = "{Barbershop Name}";
+    ViewData["Title"] = ViewData["ShopName"];
     var barbers = (IEnumerable<SelectListItem>)ViewData["BarberId"];
 }
 
@@ -30,7 +30,7 @@
             var isChecked = "unchecked";
             var index = 1;
         }
-
+        
 
         @foreach (var item in Model.Visits) {
 
@@ -38,7 +38,15 @@
             string cu = "cu";
             string cd = "cu";
             string cuText = DateTime.Now.Subtract(item.SignInTime).ToString("hh") + ":" + DateTime.Now.Subtract(item.SignInTime).ToString("mm");
-            string cdText = "02:15";
+            var cdText = "";
+            if (item.WaitTime > 60.0)
+            {
+                TimeSpan span = TimeSpan.FromMinutes(item.WaitTime);
+                cdText = span.ToString(@"hh\:mm");
+            } else
+            {
+                cdText = "00:" + Convert.ToInt32(item.WaitTime).ToString();
+            }
             if (item.CheckOffTime != DateTime.MinValue && DateTime.Now > item.CheckOffTime) {
                 cu = "";
                 cd = "";

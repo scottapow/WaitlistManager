@@ -8,9 +8,10 @@ using WaitlistManager.Models;
 namespace WaitlistManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160323013949_ChangeBarberVisitAmount")]
+    partial class ChangeBarberVisitAmount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -176,20 +177,6 @@ namespace WaitlistManager.Migrations
                     b.HasKey("BarberId");
                 });
 
-            modelBuilder.Entity("WaitlistManager.Models.Shop", b =>
-                {
-                    b.Property<int>("ShopId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double>("CutTimeAverage");
-
-                    b.Property<string>("ShopName");
-
-                    b.Property<int>("TotalCompletedVisits");
-
-                    b.HasKey("ShopId");
-                });
-
             modelBuilder.Entity("WaitlistManager.Models.Visit", b =>
                 {
                     b.Property<int>("VisitId")
@@ -208,9 +195,11 @@ namespace WaitlistManager.Migrations
 
                     b.Property<DateTime>("SignInTime");
 
-                    b.Property<double>("WaitTime");
-
                     b.Property<bool>("isCheckedOff")
+                        .HasAnnotation("Relational:DefaultValue", "False")
+                        .HasAnnotation("Relational:DefaultValueType", "System.Boolean");
+
+                    b.Property<bool>("isMissing")
                         .HasAnnotation("Relational:DefaultValue", "False")
                         .HasAnnotation("Relational:DefaultValueType", "System.Boolean");
 

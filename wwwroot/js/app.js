@@ -94,6 +94,7 @@
                 success: function (res) {
                     if (res) {
                         $('input[type=submit]').removeAttr('disabled');
+                        $('#modelPass').val($('#Password').val());
                         $('#Password').val("");
                         $('#validText').html("You may now Cut or Delete");
                         $('#validText').addClass('text-success').removeClass('text-danger');

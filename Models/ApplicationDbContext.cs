@@ -11,6 +11,7 @@ namespace WaitlistManager.Models
     {
         public DbSet<Visit> Visits { get; set; }
         public DbSet<Barber> Barbers { get; set; }
+        public DbSet<Shop> Shops { get; set; }
         
         public ApplicationDbContext()
         {

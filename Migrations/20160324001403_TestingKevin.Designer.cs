@@ -8,9 +8,10 @@ using WaitlistManager.Models;
 namespace WaitlistManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160324001403_TestingKevin")]
+    partial class TestingKevin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -183,10 +184,6 @@ namespace WaitlistManager.Migrations
 
                     b.Property<double>("CutTimeAverage");
 
-                    b.Property<string>("ShopName");
-
-                    b.Property<int>("TotalCompletedVisits");
-
                     b.HasKey("ShopId");
                 });
 
@@ -211,6 +208,10 @@ namespace WaitlistManager.Migrations
                     b.Property<double>("WaitTime");
 
                     b.Property<bool>("isCheckedOff")
+                        .HasAnnotation("Relational:DefaultValue", "False")
+                        .HasAnnotation("Relational:DefaultValueType", "System.Boolean");
+
+                    b.Property<bool>("isMissing")
                         .HasAnnotation("Relational:DefaultValue", "False")
                         .HasAnnotation("Relational:DefaultValueType", "System.Boolean");
 

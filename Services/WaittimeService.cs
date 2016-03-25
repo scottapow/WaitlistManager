@@ -18,5 +18,11 @@ namespace WaitlistManager.Services
             }
             return _now;
         }
+
+        public double CalculateWaitPerVisit(int v, double sca, double bca, int bcv)
+        {                   // ((4      -      3)         *         15)     +  (  3   *       18.25)
+            double time = (((v - bcv) * sca) + ((bcv * 0.8) * bca));
+            return time;
+        }
     }
 }

@@ -51,25 +51,17 @@ namespace WaitlistManager
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(
-            //    options =>
-            //    options.Password = new PasswordOptions
-            //    // setting the password constraints
-            //    { 
-            //        RequireDigit = true,
-            //        RequiredLength = 5,
-            //        RequireLowercase = false,
-            //        RequireUppercase = false,
-            //        RequireNonLetterOrDigit = false,
-            //    }
-            )
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddCaching();
+            services.AddSession();
             services.AddMvc();
 
             // Add application services.
             services.AddTransient<IWaitCalculator, WaittimeService>();
+            services.AddTransient<IAverageCalculator, AverageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +104,7 @@ namespace WaitlistManager
             app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

@@ -18,13 +18,10 @@ namespace WaitlistManager.Models
                 .UseSqlServerIdentityColumn();
             visit.Property(v => v.isCheckedOff)
                 .HasDefaultValue(false);
-            visit.Property(v => v.isMissing)
-                .HasDefaultValue(false);
-            
 
             // Barber Data Context Configuration  
             
-
+            
             
       
         }

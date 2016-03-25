@@ -18,9 +18,7 @@ namespace WaitlistManager.Models
 
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [ScaffoldColumn(false)]
-        public bool isMissing { get; set; }
+        
 
         [ScaffoldColumn(false)]
         public bool isCheckedOff { get; set; }
@@ -28,6 +26,8 @@ namespace WaitlistManager.Models
         [ScaffoldColumn(false)]
         [Display(Name = "Sign In Time")]
         public DateTime SignInTime { get; set; }
+        
+        public double WaitTime { get; set; }
 
         [ScaffoldColumn(false)]
         public DateTime CheckOffTime { get; set; }

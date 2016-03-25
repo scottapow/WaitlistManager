@@ -42,8 +42,9 @@ namespace WaitlistManager.Models
         [ScaffoldColumn(false)]
         public bool IsAdmin { get; set; }
 
-        public ICollection<Visit> Visits { get; set; }
+        public List<Visit> Visits  { get; set; }
 
+        public int VisitAmount { get; set; }
         
     }
 }
